@@ -10,9 +10,9 @@ with st.form("appointment_form"):
     phone = st.text_input("Phone Number")
     ic = st.text_input("IC")
     email = st.text_input("Email")
-    time = st.selectbox("Appointment Time", ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"])
     date = st.date_input("Appointment Date")
-    
+    time = st.selectbox("Appointment Time", ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"])
+        
     submitted = st.form_submit_button("Submit")
 
 if submitted:
