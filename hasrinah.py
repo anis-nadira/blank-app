@@ -2,17 +2,14 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import date
 import firebase_admin
-from firebase_admin import credentials, db, auth
+from firebase_admin import credentials, firestore, auth
 
-# Initialize Firebase Admin SDK only if not already initialized
-if not firebase_admin._apps:
-    cred = credentials.Certificate('/home/ec2-user/blank-app/cloud-project-e22b5-firebase-adminsdk-d4sdc-1a474193e3.json')
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://cloud-project-e22b5-default-rtdb.asia-southeast1.firebasedatabase.app/'
-    })
+# Initialize Firebase
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
-# Access the database
-ref = db.reference('appointments')
+# Initialize Firestore
+db = firestore.client()
 
 # Firebase Authentication
 web_api_key = "AIzaSyAFnX93fKXWLyH1sZ4loXu1-we28PrJcs0"
@@ -47,7 +44,7 @@ with st.form("appointment_form"):
     submitted = st.form_submit_button("Submit")
 
 if submitted:
-    # Data to send to Firebase Realtime Database
+    # Data to send to Firestore
     data = {
         "name": name,
         "birthdate": str(birthdate),
@@ -55,13 +52,14 @@ if submitted:
         "ic": ic,
         "email": email,
         "clinic": clinic,
-        "date": str(appointment_date),
-        "time": appointment_time
+        "appointment_date": str(appointment_date),
+        "appointment_time": appointment_time,
+        "created_at": firestore.SERVER_TIMESTAMP
     }
 
-    # Store the data in Firebase Realtime Database
+    # Store the data in Firestore
     try:
-        ref.push(data)
+        db.collection("appointments").add(data)
         st.success("Appointment booked successfully!")
         st.write("### Appointment Receipt")
         st.markdown("---")
@@ -108,8 +106,7 @@ if submitted:
     except Exception as e:
         st.error(f"Failed to save appointment: {e}")
 
-     # Cancel appointment button
-    if st.button("Cancel Appointment"):
-        st.session_state.submitted = False
-        st.warning("Your appointment has been canceled.")
-        st.rerun()
+# Optional: Cancel Appointment button
+if st.button("Cancel Appointment"):
+    st.warning("Your appointment has been canceled.")
+    st.rerun()
