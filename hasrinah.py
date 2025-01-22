@@ -6,7 +6,7 @@ from firebase_admin import credentials, db, auth
 
 # Initialize Firebase Admin SDK only if not already initialized
 if not firebase_admin._apps:
-    cred = credentials.Certificate('/blank-app/cloud-project-e22b5-firebase-adminsdk-d4sdc-9fcb9ef892.json')
+    cred = credentials.Certificate('/home/ec2-user/blank-app/cloud-project-e22b5-firebase-adminsdk-d4sdc-1a474193e3.json')
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://cloud-project-e22b5-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
