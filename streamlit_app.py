@@ -2,12 +2,34 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import date
 
-# Initialize session state for appointments
+# Initialize session state for appointments and form inputs
 if "appointments" not in st.session_state:
     st.session_state.appointments = []
-
 if "show_form" not in st.session_state:
     st.session_state.show_form = False
+if "form_data" not in st.session_state:
+    st.session_state.form_data = {
+        "name": "",
+        "birthdate": date.today(),
+        "phone": "",
+        "ic": "",
+        "email": "",
+        "appt_date": date.today(),
+        "appt_time": "8:00 AM",
+    }
+
+# Function to reset the form
+def reset_form():
+    st.session_state.form_data = {
+        "name": "",
+        "birthdate": date.today(),
+        "phone": "",
+        "ic": "",
+        "email": "",
+        "appt_date": date.today(),
+        "appt_time": "8:00 AM",
+    }
+    st.session_state.show_form = True
 
 # Function to display appointments
 def display_appointments():
@@ -30,18 +52,18 @@ st.title("Health Appointment Booking")
 
 # Add new appointment button
 if st.button("Add New Appointment"):
-    st.session_state.show_form = True
+    reset_form()
 
 # Display the form if the user wants to add a new appointment
 if st.session_state.show_form:
     with st.form("appointment_form"):
-        name = st.text_input("Name")
-        birthdate = st.date_input("Birthdate")
-        phone = st.text_input("Phone Number")
-        ic = st.text_input("IC")
-        email = st.text_input("Email")
-        appt_date = st.date_input("Appointment Date", min_value=date.today())
-        appt_time = st.selectbox("Appointment Time", ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"])
+        name = st.text_input("Name", value=st.session_state.form_data["name"])
+        birthdate = st.date_input("Birthdate", value=st.session_state.form_data["birthdate"])
+        phone = st.text_input("Phone Number", value=st.session_state.form_data["phone"])
+        ic = st.text_input("IC", value=st.session_state.form_data["ic"])
+        email = st.text_input("Email", value=st.session_state.form_data["email"])
+        appt_date = st.date_input("Appointment Date", value=st.session_state.form_data["appt_date"], min_value=date.today())
+        appt_time = st.selectbox("Appointment Time", ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"], index=["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"].index(st.session_state.form_data["appt_time"]))
         submitted = st.form_submit_button("Submit")
 
     if submitted:
