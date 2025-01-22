@@ -65,3 +65,9 @@ if submitted:
     # Download button
     with open(pdf_path, "rb") as file:
         st.download_button(label="Download Receipt", data=file, file_name="appointment_receipt.pdf")
+
+    
+    # Cancel appointment button
+    if st.button("Cancel Appointment"):
+        st.warning("Your appointment has been canceled.")
+
