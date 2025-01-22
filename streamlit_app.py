@@ -65,17 +65,7 @@ if st.session_state.show_form:
         appt_date = st.date_input("Appointment Date", value=st.session_state.form_data["appt_date"], min_value=date.today())
         appt_time = st.selectbox("Appointment Time", ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"], index=["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"].index(st.session_state.form_data["appt_time"]))
         submitted = st.form_submit_button("Submit")
-
-    if submitted:
-        appointment = {
-            "name": name,
-            "birthdate": str(birthdate),
-            "phone": phone,
-            "ic": ic,
-            "email": email,
-            "date": str(appt_date),
-            "time": appt_time,
-        }
+        
         st.session_state.appointments.append(appointment)
         st.success("Appointment booked successfully!")
         st.session_state.show_form = False
