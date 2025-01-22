@@ -69,5 +69,7 @@ if submitted:
     
     # Cancel appointment button
     if st.button("Cancel Appointment"):
+        st.session_state.submitted = False
         st.warning("Your appointment has been canceled.")
+        st.rerun()
 
