@@ -86,7 +86,7 @@ display_appointments()
 # Check if a cancellation occurred to rerun the script
 if "cancelled" in st.session_state and st.session_state.cancelled:
     st.session_state.cancelled = False
-    st.experimental_rerun()
+    st.rerun()
 
 # Generate PDF for the latest appointment if available
 if st.session_state.appointments:
