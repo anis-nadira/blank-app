@@ -108,8 +108,9 @@ if submitted:
     except Exception as e:
         st.error(f"Failed to save appointment: {e}")
 
-    # Cancel appointment button
+        # Cancel appointment button
     if st.button("Cancel Appointment"):
         st.session_state.submitted = False
         st.warning("Your appointment has been canceled.")
-        st.rerun()
+        st.rerun()
+
